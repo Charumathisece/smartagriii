@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Irrigation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background:url('https://th.bing.com/th/id/OIP.CIExTFRR0rH_G5n1SNkDswHaE6?rs=1&pid=ImgDetMain');
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"], input[type="password"], button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #moistureStatus {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #moistureStatus img {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #irrigationOn, #irrigationOff {
+            width: 48%;
+            margin: 1%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="container" id="loginPage">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="mobileNumber">Mobile Number:</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Moisture Level Page -->
+    <div class="container" id="moisturePage">
+        <h1>Soil Moisture Levels</h1>
+        <div id="moistureStatus">
+            <!-- Tree images will be dynamically inserted here -->
+        </div>
+        <button id="nextToControl">Next</button>
+    </div>
+
+    <!-- Control Page -->
+    <div class="container" id="controlPage">
+        <h1>Control Irrigation System</h1>
+        <button id="irrigationOn">Turn On</button>
+        <button id="irrigationOff">Turn Off</button>
+    </div>
+
+    <script>
+        // Show the login page on load
+        document.getElementById('loginPage').style.display = 'block';
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Assume login is successful for demonstration purposes
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('moisturePage').style.display = 'block';
+            loadMoistureLevel();
+        });
+
+        // Load moisture level and update the UI
+        function loadMoistureLevel() {
+            const moistureLevel = Math.random() * 100; // Simulating a moisture level reading
+            const moistureStatusDiv = document.getElementById('moistureStatus');
+            const treeImage = document.createElement('img');
+
+            if (moistureLevel < 25) {
+                treeImage.src = 'https://via.placeholder.com/100/FF0000?text=Red+Tree'; // Placeholder red tree image
+                sendNotification();
+            } else {
+                treeImage.src = 'https://via.placeholder.com/100/00FF00?text=Green+Tree'; // Placeholder green tree image
+            }
+
+            moistureStatusDiv.appendChild(treeImage);
+        }
+
+        // Simulate sending a notification
+        function sendNotification() {
+            alert('Moisture level is low! Notification sent to the user.');
+        }
+
+        // Next button to go to control page
+        document.getElementById('nextToControl').addEventListener('click', function() {
+            document.getElementById('moisturePage').style.display = 'none';
+            document.getElementById('controlPage').style.display = 'block';
+        });
+
+        // Irrigation control buttons
+        document.getElementById('irrigationOn').addEventListener('click', function() {
+            alert('Irrigation system turned on.');
+            document.getElementById('controlPage').style.display = 'none';
+            document.getElementById('moisturePage').style.display = 'block';
+            updateMoisturePage(true);
+        });
+
+        document.getElementById('irrigationOff').addEventListener('click', function() {
+            alert('Irrigation system turned off.');
+        });
+
+        // Update moisture page after irrigation is turned on
+        function updateMoisturePage(irrigationOn) {
+            const moistureStatusDiv = document.getElementById('moistureStatus');
+            moistureStatusDiv.innerHTML = ''; // Clear the previous content
+
+            const treeImage = document.createElement('img');
+            treeImage.src = irrigationOn
+                ? 'https://via.placeholder.com/100/00FF00?text=Green+Tree' // Placeholder green tree image
+                : 'https://via.placeholder.com/100/FF0000?text=Red+Tree'; // Placeholder red tree image
+
+            moistureStatusDiv.appendChild(treeImage);
+        }
+    </script>
+</body>
+</html>
